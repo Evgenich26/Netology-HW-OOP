@@ -1,5 +1,5 @@
 class Student:
-    student_list = []
+    student_list=[]
     def __init__(self, name, surname, gender):
         self.name = name
         self.surname = surname
@@ -8,6 +8,7 @@ class Student:
         self.courses_in_progress = []
         self.grades = {}
         Student.student_list.append(self)
+
 
     def rate_lec(self, teacher, course, grade):
         if isinstance(teacher, Lecturer) and course in self.courses_in_progress and course in teacher.courses_attached:
@@ -59,7 +60,7 @@ class Lecturer(Mentor):
         self.grades = {}
         Lecturer.lecturer_list.append(self)
 
-    def average_rate(self, grades):
+    def aagrade(self, grades):
         a=0
         b=0
         for key in grades:
@@ -71,13 +72,13 @@ class Lecturer(Mentor):
         if not isinstance(other, Lecturer):
             print('Не лектор')
             return
-        return self.average_rate(self.grades) < other.average_rate(other.grades)
+        return self.aagrade(self.grades) < other.aagrade(other.grades)
 
 
     def __str__(self):
         res = (f'Имя: {self.name}\n'
                f'Фамилия: {self.surname}\n'
-               f'Средняя оценка за лекции: {self.average_rate(self.grades)}')
+               f'Средняя оценка за лекции: {self.aagrade(self.grades)}')
         return res
 
 class Reviewer(Mentor):
@@ -108,7 +109,7 @@ vladimir_konkov.courses_in_progress += ['Python OOP', 'GIT', 'Python Beginner']
 vladimir_konkov.finished_courses += ['Welcome Python']
 
 oleg_bulygin = Lecturer('Олег','Булыгин')
-oleg_bulygin.courses_attached += ['Python OOP']
+oleg_bulygin.courses_attached += ['Python OOP', 'GIT']
 
 alex_bardin = Lecturer('Александр','Бардин')
 alex_bardin.courses_attached += ['Python Beginner', 'Welcome Python']
@@ -127,7 +128,7 @@ evgeniy_shmargunov.rate_hw(vladimir_konkov, 'Python OOP', 8)
 anton_astakhov.rate_lec(oleg_bulygin, 'Python OOP', 10)
 anton_astakhov.rate_lec(alex_bardin, 'Welcome Python', 9)
 vladimir_konkov.rate_lec(alex_bardin, 'Python Beginner', 9)
-vladimir_konkov.rate_lec(oleg_bulygin, 'Python OOP', 9)
+vladimir_konkov.rate_lec(oleg_bulygin, 'GIT', 9)
 
 
 print(anton_astakhov)
@@ -148,5 +149,16 @@ print(oleg_bulygin > alex_bardin)
 
 
 
+def average_rate(students):
+    sum_of_all_sudents_rates = 0
+    average_rate = 0
+    for student in students:
+        sum_of_all_sudents_rates+= student.average_rate(student.grades)
+    return round(sum_of_all_sudents_rates / len(students), 1)
 
 
+
+students=[anton_astakhov,vladimir_konkov]
+
+averageStudentsRate=average_rate(students)
+print(averageStudentsRate)
